@@ -17,19 +17,19 @@ class UserImagePicker extends StatefulWidget {
 class _UserImagePickerState extends State<UserImagePicker> {
   File? _pickedImageFile;
 
-  void _pickImage() {
-    final pickedImage = ImagePicker().pickImage(
+  void _pickImage() async {
+    final pickedImage = await ImagePicker().pickImage(
       source: ImageSource.camera,
       imageQuality: 50,
       maxWidth: 150,
     );
 
-    if (_pickedImageFile == null) {
+    if (pickedImage == null) {
       return;
     }
 
     setState(() {
-      _pickedImageFile = File(_pickedImageFile!.path);
+      _pickedImageFile = File(pickedImage.path);
     });
 
     widget.onPickImage(_pickedImageFile!);
@@ -41,7 +41,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
       children: [
         CircleAvatar(
           radius: 40,
-          backgroundColor: Colors.grey,
+          foregroundColor: Colors.grey,
           foregroundImage:
               _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,
         ),
